@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "fifacodes"
+version = "0.0.1"
+description = "FIFA country codes query and search."
+authors = ["tanzhijian <tanzhijianorg@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "fifacodes"}]
+homepage = "https://github.com/tanzhijian/fifacodes"
+repository = "https://github.com/tanzhijian/fifacodes"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+mypy = "^1.8.0"
+ruff = "^0.1.13"
+httpx = "^0.26.0"
+parsel = "^1.8.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+select = ["E", "F", "I"]
+line-length = 88
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests",]

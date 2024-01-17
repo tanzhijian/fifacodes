@@ -5,6 +5,8 @@ from typing import Any, Generator, Iterator, NamedTuple
 
 from rapidfuzz import process
 
+__version__ = "0.1.0"
+
 _DATA_PATH = Path(__file__).parent
 _DEFAULT_DATA_PATH = _DATA_PATH / "default.csv"
 _CUSTOM_DATA_PATH = _DATA_PATH / "custom.csv"

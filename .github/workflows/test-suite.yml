@@ -1,0 +1,36 @@
+name: Test Suite
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  tests:
+    name: "Python ${{ matrix.python-version }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Install poetry and dependencies
+      run: |
+        pip install poetry
+        poetry add setuptools@latest
+        poetry install
+    - name: Lint with Ruff
+      run: |
+        poetry run ruff .
+    - name: Type Check with Mypy
+      run: |
+        poetry run mypy .
+    - name: Test with pytest
+      run: |
+        poetry run pytest

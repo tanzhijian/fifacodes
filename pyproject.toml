@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fifacodes"
-version = "0.0.1"
+version = "0.1.0"
 description = "FIFA country codes query and search."
 authors = ["tanzhijian <tanzhijianorg@outlook.com>"]
 license = "MIT"
@@ -10,7 +10,7 @@ homepage = "https://github.com/tanzhijian/fifacodes"
 repository = "https://github.com/tanzhijian/fifacodes"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.10"
 rapidfuzz = "^3.6.1"
 
 

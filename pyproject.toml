@@ -11,6 +11,7 @@ repository = "https://github.com/tanzhijian/fifacodes"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+rapidfuzz = "^3.6.1"
 
 
 [tool.poetry.group.dev.dependencies]

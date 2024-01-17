@@ -38,3 +38,31 @@ class TestCounties:
     def test_raise_keyerror(self, counties: Counties) -> None:
         with pytest.raises(KeyError):
             counties["foo"]
+
+    def test_search(self, counties: Counties) -> None:
+        results = counties.search("ENG")
+        assert len(results) == 3
+        country = results[0]
+        assert country.name == "England"
+
+    def test_search_limit_one(self, counties: Counties) -> None:
+        results = counties.search("ENG", limit=1)
+        assert len(results) == 1
+
+    def test_search_score_cutoff(self, counties: Counties) -> None:
+        results = counties.search("ENG", score_cutoff=90.0)
+        assert len(results) == 1
+
+    def test_search_none(self, counties: Counties) -> None:
+        results = counties.search("foobar")
+        assert len(results) == 0
+
+    def test_search_one(self, counties: Counties) -> None:
+        country = counties.search_one("ENG")
+        assert country is not None
+        assert country.code == "ENG"
+        assert country.name == "England"
+
+    def test_search_one_none(self, counties: Counties) -> None:
+        country = counties.search_one("foobar")
+        assert country is None

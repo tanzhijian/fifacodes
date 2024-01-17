@@ -3,6 +3,8 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any, Generator, Iterator, NamedTuple
 
+from rapidfuzz import process
+
 _DATA_PATH = Path(__file__).parent
 _DEFAULT_DATA_PATH = _DATA_PATH / "default.csv"
 _CUSTOM_DATA_PATH = _DATA_PATH / "custom.csv"
@@ -17,6 +19,12 @@ _DataTypes = dict[str, Country]
 
 
 class Counties(Mapping[str, Country]):
+    """
+    A mapping of FIFA country codes to country names.
+
+    The default data is sourced from Wikipedia.
+    """
+
     def __init__(self) -> None:
         self.data = self._read_data()
 
@@ -48,6 +56,41 @@ class Counties(Mapping[str, Country]):
 
     def __len__(self) -> int:
         return len(self.data)
+
+    def search(
+        self,
+        key: str,
+        *,
+        limit: int = 3,
+        score_cutoff: int | float = 60,
+    ) -> list[Country]:
+        """
+        Search for a country by name or code.
+
+        The search uses fuzzy string matching to find potential results.
+
+        Args:
+            key: The search query.
+            limit: The maximum number of results to return. Defaults to 3.
+            score_cutoff: The minimum score for a result to be returned.
+                Defaults to 60.
+
+        Returns:
+            A list of potential results.
+        """
+        results = process.extract(
+            key, self.data.keys(), limit=limit, score_cutoff=score_cutoff
+        )
+        return [self.data[result[0]] for result in results]
+
+    def search_one(self, key: str) -> Country | None:
+        """
+        Search for a country by name or code and return the first result.
+        """
+        try:
+            return self.search(key, limit=1)[0]
+        except IndexError:
+            return None
 
 
 __all__ = ("Counties", "Country")

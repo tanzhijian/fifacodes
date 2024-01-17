@@ -9,10 +9,11 @@ class TestCounties:
         return Counties()
 
     def test_read_data(self, counties: Counties) -> None:
-        assert len(counties.data) == 423
+        assert len(counties._default_data) == 211
+        assert len(counties._data) == 423
 
     def test_init(self, counties: Counties) -> None:
-        assert len(counties) == 423
+        assert len(counties) == 211
 
     def test_get_key(self, counties: Counties) -> None:
         country = counties.get("ENG")

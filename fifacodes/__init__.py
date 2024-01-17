@@ -26,7 +26,7 @@ class Counties(Mapping[str, Country]):
     """
 
     def __init__(self) -> None:
-        self.data = self._read_data()
+        self._default_data, self._data = self._read_data()
 
     def _read_csv(self, path: Path) -> Generator[tuple[str, str], Any, None]:
         with open(path) as f:
@@ -35,10 +35,14 @@ class Counties(Mapping[str, Country]):
             for code, name in reader:
                 yield code, name
 
-    def _read_data(self) -> _DataTypes:
+    def _read_data(self) -> tuple[_DataTypes, _DataTypes]:
+        default_data: _DataTypes = {}
         data: _DataTypes = {}
         for code, name in self._read_csv(_DEFAULT_DATA_PATH):
             country = Country(code=code, name=name)
+
+            default_data[code] = country
+
             data[code] = country
             data[name] = country
 
@@ -46,16 +50,16 @@ class Counties(Mapping[str, Country]):
             country = data[code]
             data[name] = country
 
-        return data
+        return default_data, data
 
     def __getitem__(self, key: str) -> Country:
-        return self.data[key]
+        return self._data[key]
 
     def __iter__(self) -> Iterator[str]:
-        return iter(self.data)
+        return iter(self._default_data)
 
     def __len__(self) -> int:
-        return len(self.data)
+        return len(self._default_data)
 
     def search(
         self,
@@ -79,9 +83,9 @@ class Counties(Mapping[str, Country]):
             A list of potential results.
         """
         results = process.extract(
-            key, self.data.keys(), limit=limit, score_cutoff=score_cutoff
+            key, self._data.keys(), limit=limit, score_cutoff=score_cutoff
         )
-        return [self.data[result[0]] for result in results]
+        return [self._data[result[0]] for result in results]
 
     def search_one(self, key: str) -> Country | None:
         """

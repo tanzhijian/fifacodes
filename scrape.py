@@ -20,7 +20,7 @@ def fetch(client: Client) -> Response:
 
 def parse(response: Response) -> CountriesTypes:
     selector = Selector(response.text)
-    counties: CountriesTypes = []
+    countries: CountriesTypes = []
     tables = selector.xpath('//*[@id="mf-section-1"]/table')
     for table in tables:
         trs = table.xpath(".//tr")
@@ -28,22 +28,22 @@ def parse(response: Response) -> CountriesTypes:
             code = tr.xpath("./td[2]/text()").get()
             name = tr.xpath("./td[1]//a/text()").get()
             if code and name:
-                counties.append(Country(code=code.strip(), name=name.strip()))
-    return counties
+                countries.append(Country(code=code.strip(), name=name.strip()))
+    return countries
 
 
-def export(counties: CountriesTypes) -> None:
+def export(countries: CountriesTypes) -> None:
     with open(EXPORT_PATH, "w") as f:
         writer = csv.writer(f)
         writer.writerow(Country._fields)
-        writer.writerows(counties)
+        writer.writerows(countries)
 
 
 def main() -> None:
     client = Client()
     response = fetch(client)
-    counties = parse(response)
-    export(counties)
+    countries = parse(response)
+    export(countries)
 
 
 if __name__ == "__main__":

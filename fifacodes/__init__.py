@@ -20,7 +20,7 @@ class Country(NamedTuple):
 _DataTypes = dict[str, Country]
 
 
-class Counties(Mapping[str, Country]):
+class Countries(Mapping[str, Country]):
     """
     A mapping of FIFA country codes to country names.
 
@@ -99,4 +99,4 @@ class Counties(Mapping[str, Country]):
             return None
 
 
-__all__ = ("Counties", "Country")
+__all__ = ("Countries", "Country")

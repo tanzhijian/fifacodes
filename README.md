@@ -17,41 +17,41 @@ pip install fifacodes
 You can query like using dict：
 
 ```pycon
->>> from fifacodes import Counties
->>> counties = Counties()
->>> counties.get('ENG')
+>>> from fifacodes import Countries
+>>> countries = Countries()
+>>> countries.get('ENG')
 Country(code='ENG', name='England')
->>> len(counties)
+>>> len(countries)
 211
->>> list(counties.items())[0]
+>>> list(countries.items())[0]
 ('AFG', Country(code='AFG', name='Afghanistan'))
 ```
 
 Query by name:
 
 ```pycon
->>> counties['England']
+>>> countries['England']
 Country(code='ENG', name='England')
 ```
 
 Search for a country by name or code, the search uses fuzzy string matching to find potential results.
 
 ```pycon
->>> counties.search('ARG')
+>>> countries.search('ARG')
 [Country(code='ARG', name='Argentina'), Country(code='AFG', name='Afghanistan'), Country(code='ALG', name='Algeria')]
 ```
 
 Results can be adjusted using parameters:
 
 ```pycon
->>> counties.search('Fran', limit=2, score_cutoff=70)
+>>> countries.search('Fran', limit=2, score_cutoff=70)
 [Country(code='FRA', name='France'), Country(code='IRN', name='Iran')]
 ```
 
 Search for a country by name or code and return the first result.
 
 ```pycon
->>> counties.search_one('Argent')
+>>> countries.search_one('Argent')
 Country(code='ARG', name='Argentina')
 ```
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fifacodes"
-version = "0.1.0"
+version = "0.1.1"
 description = "FIFA country codes query and search."
 authors = ["tanzhijian <tanzhijianorg@outlook.com>"]
 license = "MIT"

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "fifacodes"
-version = "0.1.1"
-description = "FIFA country codes query and search."
+version = "0.1.2"
+description = "FIFA member associations codes query and search."
 authors = ["tanzhijian <tanzhijianorg@outlook.com>"]
 license = "MIT"
 readme = "README.md"

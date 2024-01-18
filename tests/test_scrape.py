@@ -12,11 +12,11 @@ def response() -> Response:
 
 
 def test_parse(response: Response) -> None:
-    countries = parse(response)
-    assert len(countries) == 211
-    first_country = countries[0]
-    assert first_country.code == "AFG"
-    assert first_country.name == "Afghanistan"
-    last_country = countries[-1]
-    assert last_country.code == "ZIM"
-    assert last_country.name == "Zimbabwe"
+    members = parse(response)
+    assert len(members) == 211
+    first_member = members[0]
+    assert first_member.code == "AFG"
+    assert first_member.name == "Afghanistan"
+    last_member = members[-1]
+    assert last_member.code == "ZIM"
+    assert last_member.name == "Zimbabwe"

@@ -4,12 +4,12 @@ from httpx import Client, Response
 from parsel import Selector
 
 from fifacodes import _DEFAULT_DATA_PATH as EXPORT_PATH
-from fifacodes import Country
+from fifacodes import Member
 
 URL = "https://en.m.wikipedia.org/wiki/List_of_FIFA_country_codes"
 
 
-CountriesTypes = list[Country]
+MembersTypes = list[Member]
 
 
 def fetch(client: Client) -> Response:
@@ -18,9 +18,9 @@ def fetch(client: Client) -> Response:
     return response
 
 
-def parse(response: Response) -> CountriesTypes:
+def parse(response: Response) -> MembersTypes:
     selector = Selector(response.text)
-    countries: CountriesTypes = []
+    members: MembersTypes = []
     tables = selector.xpath('//*[@id="mf-section-1"]/table')
     for table in tables:
         trs = table.xpath(".//tr")
@@ -28,22 +28,22 @@ def parse(response: Response) -> CountriesTypes:
             code = tr.xpath("./td[2]/text()").get()
             name = tr.xpath("./td[1]//a/text()").get()
             if code and name:
-                countries.append(Country(code=code.strip(), name=name.strip()))
-    return countries
+                members.append(Member(code=code.strip(), name=name.strip()))
+    return members
 
 
-def export(countries: CountriesTypes) -> None:
+def export(members: MembersTypes) -> None:
     with open(EXPORT_PATH, "w") as f:
         writer = csv.writer(f)
-        writer.writerow(Country._fields)
-        writer.writerows(countries)
+        writer.writerow(Member._fields)
+        writer.writerows(members)
 
 
 def main() -> None:
     client = Client()
     response = fetch(client)
-    countries = parse(response)
-    export(countries)
+    members = parse(response)
+    export(members)
 
 
 if __name__ == "__main__":

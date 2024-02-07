@@ -3,6 +3,12 @@ import pytest
 from fifacodes import Members
 
 
+def test_singleton() -> None:
+    s1 = Members()
+    s2 = Members()
+    assert s1 is s2
+
+
 class TestMembers:
     @pytest.fixture(scope="class")
     def members(self) -> Members:

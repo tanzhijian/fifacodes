@@ -1,11 +1,12 @@
 import csv
+from abc import ABCMeta
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any, Callable, Generator, Iterator, NamedTuple
 
 from rapidfuzz import process
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 _DATA_PATH = Path(__file__).parent
 _DEFAULT_DATA_PATH = _DATA_PATH / "default.csv"
@@ -20,7 +21,20 @@ class Member(NamedTuple):
 _DataTypes = dict[str, Member]
 
 
-class Members(Mapping[str, Member]):
+class Singleton(ABCMeta):
+    """
+    A metaclass for creating singletons.
+    """
+
+    _instances: dict[type, Any] = {}
+
+    def __call__(cls, *args: Any, **kwargs: Any) -> Any:
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class Members(Mapping[str, Member], metaclass=Singleton):
     """
     A mapping of FIFA member codes to member names.
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fifacodes"
-version = "0.1.2"
+version = "0.1.3"
 description = "FIFA member associations codes query and search."
 authors = ["tanzhijian <tanzhijianorg@outlook.com>"]
 license = "MIT"

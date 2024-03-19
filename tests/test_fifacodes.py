@@ -16,7 +16,7 @@ class TestMembers:
 
     def test_read_data(self, members: Members) -> None:
         assert len(members._default_data) == 211
-        assert len(members._data) == 426
+        assert len(members._data) == 427
 
     def test_init(self, members: Members) -> None:
         assert len(members) == 211
